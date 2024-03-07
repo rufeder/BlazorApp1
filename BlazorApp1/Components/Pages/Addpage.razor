@@ -1,0 +1,51 @@
+﻿@page "/add-page"
+@rendermode InteractiveServer
+
+<PageTitle>Add Page</PageTitle>
+
+<h1>Add Page</h1>
+
+<button class="btn btn-primary btn hover" style="margin-top: 1em; margin-bottom: 1em;" @onclick="SwitchModalView">Add Shopping List</button>
+
+@if (modalview)
+{
+    <Modal Title="Name your Page" Show="true" OnCancel="SwitchModalView" OnConfirm="CreatePage">
+        <p>Type your Pagename:</p>
+        <input class="form-control" @bind=mypagename></input>
+    </Modal>
+}
+
+@code {
+    public bool modalview = false;
+
+    public string? mypagename = "";
+
+    protected override void OnInitialized()
+    {
+        mypagename = "";
+    }
+
+    public void SwitchModalView()
+    {
+        if (modalview)
+        {
+            modalview = false;
+        } else
+        {
+            modalview = true;
+        }
+    }
+
+    public void CreatePage()
+    {
+        string toWrite = "@page \"/" + mypagename + "\"\n <Templ pagename=\"" + mypagename + "\" table=true/>\n @code {}";
+        string filepath = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\source\repos\BlazorApp1\BlazorApp1\Components\Pages");
+        string file = "\\" + mypagename +".razor";
+
+        System.IO.File.WriteAllText(filepath+file, toWrite);
+
+        SwitchModalView();
+    }
+
+   
+}

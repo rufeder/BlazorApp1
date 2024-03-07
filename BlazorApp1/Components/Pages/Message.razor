@@ -1,0 +1,32 @@
+﻿@page "/message"
+@rendermode InteractiveServer
+
+<PageTitle>Message</PageTitle>
+
+<h3>Message</h3>
+
+<input @onchange="InputChanged" />
+
+<p>@message1</p>
+
+<input @bind="@text"/>
+<button class="btn btn-primary btn hover" @onclick="() => text = string.Empty">Clear</button>
+<p>@text</p>
+
+
+
+@code {
+
+    string? text { get; set; } = "";
+
+    string? message1 = "";
+
+    void InputChanged(ChangeEventArgs e)
+    {
+        if (e.Value != null)
+        {
+            message1 = (string)e.Value;
+        }
+    }
+
+}
